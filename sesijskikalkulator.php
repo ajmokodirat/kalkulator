@@ -99,12 +99,46 @@ foreach ($_SESSION["dijeljenja"] as $rez) {
 <input type="text" name="pretraga" placeholder="Unesite rezultat koji zelite da nadjete." size="40px"/>
 <input type="submit" name="pretrazi" value="Pronadji" />
 <!-- Istorija racunanja -->
+<!-- Dugme za sortiranje istorije -->
+<input type="submit" name="sortiraj" value="Sortiraj" />
+<select name="sortiranje">
+  <option name="sortkavecem" value="sortkavecem" >Sortiraj ka vecem</option>
+  <option name="sortkamanjem" value="sortkamanjem" >Sortiraj ka manjem</option>
+</select>
+<!-- Polje za istoriju racunanja -->
 <textarea rows="10" cols="100">                                                                                  		
-<?php																														//Izbacivanje istorije racunanja
+<?php							
+if(isset($_POST["sortiraj"])) { 																							// Sortiranje rezultata
+		foreach ($arrRacunanja as $ovo) {
+			$clan = explode (" = ", $ovo);
+			$kljuc = $clan[1];
+			$sadrzaj = $clan[0];
+			$noviniz[$kljuc] = $sadrzaj;
+			
+		}
+	$sortiranje=$_POST["sortiranje"];
+	if($sortiranje == "sortkavecem") {	
+	krsort($noviniz);
+	}
+	elseif($sortiranje == "sortkamanjem") {
+	ksort($noviniz);
+	}
+		
+	
+	foreach ($noviniz as $kljucic => $sortiraj) {
+		echo $sortiraj." = "."$kljucic";
+		echo "\n";
+	}
+	
+}	
+else {																														//Izbacivanje istorije racunanja
 foreach ($arrRacunanja as $svi) {
     echo $svi;	
 	echo "\n";
 }
+}
+
+
 ?>
 </textarea>
 <!-- Polje u kojem se pretrazuju rezultati pretrage -->
